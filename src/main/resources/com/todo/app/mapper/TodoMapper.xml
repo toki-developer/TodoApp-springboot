@@ -15,15 +15,15 @@
     select * from todo_items where done_flg = 1
   </select>
 
-  <insert id="add" parameterType="com.todo.app.entity.Todo">
+  <insert id="add"  useGeneratedKeys="true" keyProperty="id" parameterType="com.todo.app.entity.Todo">
     insert into todo_items (title,time_limit)
-    values (#{title},#{time_limit,jdbcType=DATE})
+    values (#{title},to_date(#{time_limit},'yy-mm-dd'))
   </insert>
 
   <update id="update" parameterType="com.todo.app.entity.Todo">
     update todo_items set
       title = #{title},
-      time_limit = #{time_limit,jdbcType=DATE},
+      time_limit = to_date(#{time_limit},'yy-mm-dd'),
       done_flg = #{done_flg}
       where id = #{id}
   </update>

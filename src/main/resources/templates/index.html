@@ -2,38 +2,73 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="webjars/bootstrap/4.6.0/css/bootstrap.min.css" />
+<script src="webjars/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
 <title>TodoApp</title>
 </head>
 <body>
   <h1>TodoList</h1>
   <h3>マイタスク</h3>
-  <form method="post" th:action="@{/update}" th:each="todo : ${todos}" >
-    <input type="checkbox"name="done_flg" value="1"/>
-    <input type="hidden" name="id" th:value="${todo.id}" />
-    <input type="text" name="title"th:value="${todo.title}" />
-    <input type="date" name="time_limit"th:value="${todo.time_limit}" />
-    <input type="submit" value="更新" />
-  </form>
+  <table class="table table-borderless">
+    <thead>
+    </thead>
+    <tbody id="todes">
+      <tr class="todo" th:each="todo : ${todos}">
+        <td style="width:2rem">
+          <input type="checkbox"name="done_flg"/>
+          <input type="hidden" name="id" th:value="${todo.id}" />
+        </td>
+        <td  style="width:22rem"><input type="text" style="border:none;width:22rem" name="title" th:value="${todo.title}"/></td>
+        <td><input type="date" style="border:none" name="time_limit" th:value="${todo.time_limit}" /></td>
+      </tr>
+    </tbody>
+  </table>
 
-  <h3>完了済み</h3>
-   <form method="post" th:action="@{/update}" th:each="todo : ${doneTodos}" >
-    <input type="checkbox"name="done_flg" value="1"/>
-    <input type="hidden" name="id" th:value="${todo.id}" />
-    <input type="text" name="title"th:value="${todo.title}" style="text-decoration:line-through"/>
-    <input type="date" name="time_limit"th:value="${todo.time_limit}" />
-    <input type="submit" value="更新" />
-  </form>
+  <div style="font-size:20px">
+    <span id="done_count"></span>
+    <span class="pr-3">件完了</span>
+    <span class="button_for_show " style="display:inline-block"></span>
+  </div>
+  <table class="table table-borderless" style="display:none"id="done_table">
+  <thead>
+  </thead>
+    <tbody id="donetodes">
+      <tr class="todo" th:each="todo : ${doneTodos}">
+        <td style="width:2rem">
+          <input type="checkbox"name="done_flg" checked/>
+          <input type="hidden" name="id" th:value="${todo.id}" />
+        </td>
+        <td  style="width:22rem"><input type="text" style="border:none;width:22rem;text-decoration:line-through" name="title" th:value="${todo.title}"/></td>
+        <td><input type="date"style="border:none;display:none" name="time_limit" th:value="${todo.time_limit}" /></td>
+      </tr>
+    </tbody>
+  </table>
 
-  <h3>新しいタスクを追加</h3>
-  <form method="post" th:action="@{/add}">
-    <input type="text" name="title" />
-    <input type="date" name="time_limit"/>
-    <input type="submit" value="追加" />
-  </form>
 
-  <form method="post" th:action="@{/delete}">
-    <input type="submit" value="完了済みを削除" />
-  </form>
+   <button type="button" class="btn btn-light rounded-circle p-0 text-muted font-weight-bold" data-toggle="modal"data-target="#modal"
+    style="width:2.5rem;height:2.5rem;">＋</button>
+   <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-body">
+                   <form id="add_form">
+                       <div class="form-group">
+                           <input type="text" name="title" class="form-control"placeholder="新しいタスク"/>
+                       </div>
+                       <div class="form-group">
+                           <input type="date" name="time_limit"class="form-control" style="width:60%;" />
+                       </div>
+                       <button type="button" class="btn btn-primary float-right"  data-dismiss="modal" id="add">追加</button>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>
 
+  <button type="button" class="btn btn-outline-secondary" id="delete">完了済みを削除</button>
+
+  <script type="text/javascript" th:src="@{/js/todo.js}"></script>
 </body>
 </html>

@@ -1,14 +1,17 @@
 package com.todo.app.entity;
 
-import java.sql.Date;
-
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
+@Getter
+@Setter
 public class Todo {
+
 
 	private long id;
 	private String title;
 	private int done_flg;
-	private Date time_limit;
+	private String time_limit;
 }
